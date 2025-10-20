@@ -2,8 +2,8 @@ name: Fetch Oulu Päätökset
 
 on:
   schedule:
-    - cron: '0 7 * * *'
-  workflow_dispatch:
+    - cron: '0 7 * * *'   # Aja joka päivä klo 07:00 UTC (klo 09:00 Suomessa)
+  workflow_dispatch:       # Mahdollistaa manuaalisen ajon GitHubista
 
 jobs:
   run:
@@ -19,9 +19,10 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install requests beautifulsoup4 pandas
+        run: |
+          pip install requests beautifulsoup4 pandas pdfplumber
 
-      - name: Run script
+      - name: Run tonttiseuranta script
         run: python scripts/tonttiseuranta.py
 
       - name: Upload CSV as artifact
