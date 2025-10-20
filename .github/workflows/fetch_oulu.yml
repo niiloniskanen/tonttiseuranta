@@ -25,7 +25,7 @@ jobs:
         run: python scripts/tonttiseuranta.py
 
       - name: Upload CSV as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: oulu_viranhaltijapaatokset
           path: data/oulu_viranhaltijapaatokset.csv
