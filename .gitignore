@@ -1,1 +1,19 @@
-*
+# Virtuaaliympäristöt
+venv/
+.venv/
+
+# Pythonin välimuistit
+__pycache__/
+*.pyc
+
+# Ympäristömuuttujat
+.env
+
+# Jupyter notebook -tarkenteet (jos joskus käytät)
+.ipynb_checkpoints/
+
+# Datatiedostot, joita ei haluta versionhallintaan
+data/*.csv
+
+# VS Code -asetukset
+.vscode/
