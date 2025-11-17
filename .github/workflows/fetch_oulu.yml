@@ -2,8 +2,11 @@ name: Fetch Oulu Päätökset
 
 on:
   schedule:
-    - cron: '0 7 * * *'   # Aja joka päivä klo 07:00 UTC (klo 09:00 Suomessa)
+    - cron: '0 6 * * *'   # Aja joka päivä klo 07:00 UTC (klo 08:00 Suomessa)
   workflow_dispatch:       # Mahdollistaa manuaalisen ajon GitHubista
+
+permissions:
+  contents: write   # sallitaan workflowlle oikeus puskea muutoksia repoosi
 
 jobs:
   run:
@@ -12,6 +15,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -20,13 +25,23 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests beautifulsoup4 pandas pdfplumber
+          pip install requests beautifulsoup4 pandas
 
       - name: Run tonttiseuranta script
         run: python scripts/tonttiseuranta.py
+        # HUOM: jos tonttiseuranta.py on juurikansiossa, käytä:
+        # run: python tonttiseuranta.py
 
-      - name: Upload CSV as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: oulu_viranhaltijapaatokset
-          path: data/oulu_viranhaltijapaatokset.csv
+      - name: Commit and push updated CSV
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add data/oulu_viranhaltijapaatokset.csv
+
+          if git diff --cached --quiet; then
+            echo "Ei muutoksia CSV:ssä, ei commitia."
+          else
+            git commit -m "Päivitä Oulun viranhaltijapäätökset CSV [skip ci]"
+            git push
+          fi
