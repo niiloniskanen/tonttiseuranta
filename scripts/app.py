@@ -12,11 +12,9 @@ st.set_page_config(
 # --- TYYLIT ---
 st.markdown("""
 <style>
-    /* Yleinen tausta */
     body {
         background-color: #f0f4f9;
     }
-    /* Korttien tyyli */
     .decision-card {
         background: linear-gradient(135deg, #e8f1ff 0%, #ffffff 100%);
         color: #003366;
@@ -31,7 +29,6 @@ st.markdown("""
         transform: translateY(-3px);
         box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
     }
-    /* Linkki */
     a {
         text-decoration: none;
         color: #0047b3;
@@ -41,7 +38,6 @@ st.markdown("""
         color: #003080;
         text-decoration: underline;
     }
-    /* Otsikko kortissa */
     .decision-title {
         font-size: 1.1rem;
         font-weight: 700;
